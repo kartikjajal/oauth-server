@@ -29,12 +29,12 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception { // @formatter:off
         auth.inMemoryAuthentication()
             .withUser("john")
-            .password("{noop}123")
+            .password(passwordEncoder().encode("123"))
             .roles("USER");
     } // @formatter:on
 
-/*    @Bean
+    @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-*/}
+}
