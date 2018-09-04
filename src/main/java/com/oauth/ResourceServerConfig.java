@@ -1,5 +1,6 @@
 package com.oauth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -11,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @Order(1)
 public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	UserDetailsServiceImpl userDetailsService;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception { // @formatter:off
@@ -27,10 +31,11 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception { // @formatter:off
-        auth.inMemoryAuthentication()
+/*        auth.inMemoryAuthentication()
             .withUser("john")
             .password(passwordEncoder().encode("123"))
-            .roles("USER");
+            .roles("USER");*/
+    	auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     } // @formatter:on
 
     @Bean
